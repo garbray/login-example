@@ -3,7 +3,8 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const UPDATE_CONTEXT = 'UPDATE_CONTEXT';
 export const GO_BACK = 'GO_BACK';
 
-const useDispacher = dispatch => {
+const dispatcher = dispatch => {
+  console.log('update')
   const goToScreen = newScreen => {
     dispatch({ type: CHANGE_SCREEN, payload: { nextScreen: newScreen } });
   };
@@ -16,11 +17,16 @@ const useDispacher = dispatch => {
     dispatch({ type: GO_BACK });
   };
 
+  const setContextValue = (values) => {
+    dispatch({type: UPDATE_CONTEXT, payload: { ...values }});
+  };
+
   return {
     goToScreen,
     loginUser,
-    goBack
+    goBack,
+    setContextValue
   };
 };
 
-export default useDispacher;
+export default dispatcher;

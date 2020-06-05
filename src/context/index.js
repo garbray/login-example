@@ -1,28 +1,25 @@
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useReducer, useContext, useRef, useCallback, memo, useMemo } from 'react';
 import reducer from './reducer';
-import useDispacher from './actions';
+import fnDispatcher from './actions';
 
 const initialState = {
   currentScreen: 'login',
   history: [],
-  user: {
-    email: ''
-  },
-  error: ''
+  error: '',
+  email: ''
 };
 
 const AppStateContext = createContext();
 const AppDispatchContext = createContext();
 
-let count = 0;
 const AppProvider = ({ children }) => {
-  console.log(count, 'provider');
-  count += 1;
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const dispatcher = useMemo(() => { return fnDispatcher(dispatch)}, [dispatch]);
 
   return (
     <AppStateContext.Provider value={state}>
-      <AppDispatchContext.Provider value={useDispacher(dispatch)}>
+      <AppDispatchContext.Provider value={dispatcher}>
         {children}
       </AppDispatchContext.Provider>
     </AppStateContext.Provider>

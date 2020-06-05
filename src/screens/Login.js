@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useAppDispatch } from '../context';
 import useFormik from '../hooks/useFormik';
 import { validateLogin } from '../helpers';
@@ -6,19 +6,18 @@ import useDataApi from '../hooks/useDataApi';
 import isEmpty from 'lodash.isempty';
 
 const Login = () => {
-  const useDispacher = useAppDispatch();
+  const dispatcher = useAppDispatch();
   const { data, error, doSend } = useDataApi();
 
   useEffect(() => {
-    if (!isEmpty(data)) {
-      console.log(data);
+    if (isEmpty(data)) {
+      return;
     }
   }, [data]);
 
   useEffect(() => {
-    console.log('useffect error', error);
-    if (!isEmpty(error)) {
-      console.log(error);
+    if (isEmpty(error)) {
+      return;
     }
   }, [error]);
 
@@ -30,7 +29,6 @@ const Login = () => {
     handleSubmit,
     touched,
     errors,
-    submitError,
     getFieldProps,
     isSubmitting,
     isValid
@@ -45,12 +43,13 @@ const Login = () => {
 
   const resetPassword = event => {
     event.preventDefault();
-    useDispacher.goToScreen('reset');
+    dispatcher.setContextValue({email: 'demo@tm.com'});
+    dispatcher.goToScreen('email');
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {submitError && <div className="errorMessage">{submitError}</div>}
+      {error && <div className="errorMessage">{error}</div>}
       <label className="label" htmlFor="email">
         Email
       </label>

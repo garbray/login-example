@@ -1,18 +1,19 @@
 import React from 'react';
 import { GO_BACK } from '../context/actions';
-import { useAppDispatch } from '../context';
-import { sleep } from '../helpers';
+import { useAppDispatch, useAppState } from '../context';
+import { sleep, validateEmail } from '../helpers';
 import API from '../api';
 import useFormik from '../hooks/useFormik';
 
-const validate = () => {};
+
 
 const ResetPasswordEmail = () => {
   const dispatch = useAppDispatch();
+  const {email} = useAppState();
+
   const submitForm = async data => {
     const response = API('otpcode', data);
     await sleep(1000);
-    console.log(response);
     if (response.status === 'error') {
       throw response.error;
     }
@@ -28,39 +29,41 @@ const ResetPasswordEmail = () => {
     submitError
   } = useFormik({
     initialValues: {
-      otpCode: ''
+      email: email
     },
     onSubmit: submitForm,
-    validate
+    validate: validateEmail
   });
 
   const goBack = event => {
     event.preventDefault();
-    dispatch({ type: GO_BACK });
+    dispatch.goBack();
   };
 
   return (
     <form onSubmit={handleSubmit}>
       {submitError && <div className="error">{submitError}</div>}
-      <label className="label" htmlFor="otp">
-        Code
+      <label className="label" htmlFor="email">
+        Email
       </label>
       <input
         className="input"
-        placeholder="otp code"
-        type="number"
-        id="otp"
-        {...getFieldProps('otpCode')}
+        placeholder={email}
+        type="text"
+        id="email"
+        {...getFieldProps('email')}
       />
-      {errors.otpCode && touched.otpCode && (
-        <div className="error">{errors.otpCode}</div>
+      {errors.email && touched.email && (
+        <div className="error">{errors.email}</div>
       )}
+      <div className="container">
       <button className="button" type="button" onClick={goBack}>
         back
       </button>
       <button className="button" disabled={isSubmitting}>
         submit
       </button>
+      </div>
     </form>
   );
 };

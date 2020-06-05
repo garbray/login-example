@@ -29,7 +29,7 @@ export const sleep = ms =>
     }, ms);
   });
 
-const validateEmail = values => {
+export const validateEmail = values => {
   const errors = {};
   // eslint-disable-next-line
   const emailValidator = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

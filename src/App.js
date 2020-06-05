@@ -5,6 +5,7 @@ import { useAppState } from './context';
 const SCREENS = {
   login: lazy(() => import('./screens/Login')),
   confirm: lazy(() => import('./screens/Confirm')),
+  email: lazy(() => import('./screens/ResetPasswordEmail')),
   reset: lazy(() => import('./screens/Reset')),
   welcome: lazy(() => import('./screens/Welcome'))
 };

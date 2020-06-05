@@ -66,7 +66,6 @@ const useDataApi = (initialUrl = '', initialData = '') => {
     setConfig({ url, data: { ...sendData } });
   }, []);
 
-  console.log(state);
   return { ...state, doSend };
 };
 

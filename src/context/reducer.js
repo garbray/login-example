@@ -25,8 +25,8 @@ const reducer = (state, action) => {
       const { userEmail } = payload;
       return { ...state, userEmail: userEmail };
     case UPDATE_CONTEXT:
-      analytics(`UPDATE CONTEXT`);
-      return { ...state };
+      analytics('UPDATE CONTEXT');
+      return { ...state, ...payload };
     default:
       return state;
   }
